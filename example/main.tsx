@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import React, { FC, MutableRefObject, useEffect, useState } from 'react';
 import { useRete } from './graph';
 import copy from 'copy-to-clipboard';
-import { Select, ShaderGraphEditor } from '../src';
+import { Select, ShaderGraphData, ShaderGraphEditor } from '../src';
 import { Presets } from './presets';
 import { printCompile } from '../src/view/utils';
 
@@ -48,6 +48,17 @@ const GraphEditor: FC<{}> = () => {
         </button>
         <button className="btn" onClick={() => editorRef.current?.inspectorView.toggle()}>
           Inspector
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            navigator.clipboard.readText().then(text => {
+              const json: ShaderGraphData = JSON.parse(text);
+              editorRef.current?.fromJSON(json);
+            });
+          }}
+        >
+          Import
         </button>
         <button
           className="btn"
